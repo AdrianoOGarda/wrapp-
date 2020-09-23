@@ -13,15 +13,15 @@ export const test = async() => {
 }
 
 export const signup = async(user) => {
-    return await SERVICE.post('/signup', user);
+    return await service.post('/signup', user);
 }
 
 export const login = async(user) => {
-    return await SERVICE.post('/login', user);
+    return await service.post('/login', user);
 }
 
 export const logOut = async() => {
-    return await SERVICE.get('/logout');
+    return await service.get('/logout');
 }
 
 export const getProfile = async() => {
