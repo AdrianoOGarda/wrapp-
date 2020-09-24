@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import LayoutApp from "./components/LayoutApp"
-import {NotFound, Home, Login, Profile} from "./pages"
+import {NotFound, Home, Login, Profile, Signup} from "./pages"
 
-const Signup = () => <h1>Signup</h1>
+//const Signup = () => <h1>Signup</h1>
 //const Login = () => <h1>Login</h1>
 
 

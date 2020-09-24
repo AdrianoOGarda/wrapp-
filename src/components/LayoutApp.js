@@ -24,9 +24,15 @@ const { Header, Sider, Content } = Layout;
 
 function LayoutApp({children}) {
     const [collapsed, setCollapsed] = useState(false)
+    const { clearCtxUser, user } = useContext(MyContext)
 
     const toggle = () => {
         setCollapsed(!collapsed)
+    }
+
+    const logoutProcess = async () => {
+      await logOut()
+      clearCtxUser()
     }
 
 
@@ -47,10 +53,13 @@ function LayoutApp({children}) {
             <Menu.Item key="4" icon={<VideoCameraAddOutlined />} style={{color: 'black'}}>
             <Link to='/signup' style={{color: 'black'}}>New Project</Link>
             </Menu.Item>
-            <Menu.Item key="5" icon={<LoginOutlined />} style={{color: 'black'}}>
+            <Menu.Item key="5" icon={<UserOutlined />} style={{color: 'black'}} onClick={logoutProcess}>
+              Logout
+            </Menu.Item>
+            <Menu.Item key="6" icon={<LoginOutlined />} style={{color: 'black'}}>
             <Link to='/login' style={{color: 'black'}}>Login</Link>
             </Menu.Item>
-            <Menu.Item key="6" icon={<UserAddOutlined />} style={{color: 'black'}}>
+            <Menu.Item key="7" icon={<UserAddOutlined />} style={{color: 'black'}}>
             <Link to='/signup' style={{color: 'black'}}>Signup</Link>
             </Menu.Item>
           </Menu>
