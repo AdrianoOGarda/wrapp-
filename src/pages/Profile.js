@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { MyContext } from "../context"
 import { getOneUser } from "../services/user"
-import {Avatar, Row, Col, Modal, Button} from "antd"
+import {Avatar, Row, Col, Modal, Button, Typography} from "antd"
 import EditProfile from "../components/EditProfile"
+
+const { Title } = Typography;
 
 const Profile = ({
     match: {
@@ -27,18 +29,23 @@ const Profile = ({
    
     return (
         <div>
+        <div style={{backgroundImage: `url(${oneUser?.backgroundImage})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', width: '50vw', borderRadius: '7px'}}>
             <Row>
-                <Col span={24} style={{display: 'flex'}}>
-                <Avatar size={120} src={oneUser?.image} style={{backgroundColor: '#F5F5F5', paddingBottom: '15px'}}/>
+                <Col span={24} style={{display: 'flex', margin: '100px'}}>
+                <Avatar size={140} src={oneUser?.image} style={{backgroundColor: '#F5F5F5', paddingBottom: '15px'}}/>
                 </Col>
             </Row>
-            <Row>
-                <Col span={12} style={{display: 'flex'}}>
-                {oneUser?.name} {oneUser?.crewTitle}
+            </div>
+            <Row style={{margin: '0px', paddingBottom: '0px'}}>
+                <Col span={12} style={{display: 'flex', margin: '10px', justifyContent: 'center'}}>
+                <Title level={2} style={{fontFamily: 'Volkorn'}}>{oneUser?.name}</Title> 
                 </Col>
             </Row>
-            <Row style={{paddingTop: '5px'}}>
-                <Col span={12} style={{display: 'flex'}}>
+            <Row style={{display: 'flex'}}>
+                <Col span={12} style={{margin: '0px', alignSelf: 'center'}}>
+                <Title level={4} style={{fontFamily: 'Volkorn'}}>I work as a/an: {oneUser?.crewTitle}</Title> 
+                </Col>
+                <Col span={12}>
                     <Button onClick={() => setShowModal(true)} style={{height: '25px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>Edit your profile</Button>
                 <Modal
                 title='Edit your profile'
@@ -54,6 +61,8 @@ const Profile = ({
                 </Modal>
                 </Col>
             </Row>
+        
+            <div style={{width: '85vw', borderBottom: '2px solid #A52A2A', paddingTop: '10px'}}></div>
             <Row style={{paddingTop: '10px'}}>
                 <Col span={12} style={{display: 'flex', justifyContent: 'left', border: '1px solid grey'}}>
                     {oneUser?.about}

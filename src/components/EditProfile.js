@@ -74,8 +74,10 @@ function EditProfile({ userId }) {
             ))}
             </Select>
             </Form.Item>
+            <label for='profilePic'>Change your profile photo</label>
             <input type='file' onChange={uploadPhoto}/>
             <br />
+            <label for='backgroundPic'>Change your background image</label>
             <input type='file' onChange={uploadBackPhoto}/>
             <br />
             <Button type='primary' htmlType='submit'>
