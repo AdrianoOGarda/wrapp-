@@ -9,5 +9,8 @@ export const getAllUsers = async() => {
 
 export const getOneUser = async userId => {
     return await service.get(`/${userId}`)
-    console.log('consola:', userId)
+}
+
+export const updateUser = async(userId, userInfo) => {
+    await service.put(`/${userId}`, userInfo)
 }
