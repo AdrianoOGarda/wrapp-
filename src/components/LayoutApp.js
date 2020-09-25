@@ -13,7 +13,8 @@ import {
   HomeOutlined,
   LoginOutlined,
   UserAddOutlined,
-  StarOutlined
+  StarOutlined,
+  LogoutOutlined
 } from '@ant-design/icons';
 
 import { Typography } from 'antd';
@@ -37,35 +38,50 @@ function LayoutApp({children}) {
 
 
     return (
-        <Layout style={{height: "100vh", backgroundColor: '#FFFFF0'}} >
-        <Sider trigger={null} collapsible collapsed={collapsed} style={{backgroundColor: '#FFFFF0'}}>
+        <Layout style={{height: "100vh", backgroundColor: '#F5F5F5', boxSizing: 'border-box'}} >
+        <Sider trigger={null} collapsible collapsed={collapsed} style={{backgroundColor: '#F5F5F5'}}>
           <div className="logo" />
-          <Menu theme="dark" mode="inline" style={{backgroundColor: '#FFFFF0'}}>
-            <Menu.Item key="1" icon={<UserOutlined />} style={{color: 'black'}}>
-              <Link to='/profile' style={{color: 'black'}}>Profile</Link>
-            </Menu.Item>
-            <Menu.Item key="2" icon={<HomeOutlined />} style={{color: 'black'}}>
+          <Menu theme="dark" mode="inline" style={{backgroundColor: '#F5F5F5'}}>
+          <Menu.Item key="1" icon={<HomeOutlined />} style={{color: 'black'}}>
             <Link to='/' style={{color: 'black'}}>Home</Link>
             </Menu.Item>
+            {user && (
+              <Menu.Item key="2" icon={<UserOutlined />} style={{color: 'black'}}>
+              <Link to={`/users/${user?._id}`} style={{color: 'black'}}>Profile</Link>
+            </Menu.Item>
+            )}
             <Menu.Item key="3" icon={<StarOutlined />} style={{color: 'black'}}>
             <Link to='/popular' style={{color: 'black'}}>Popular</Link>
             </Menu.Item>
+            {user && (
+              <>
             <Menu.Item key="4" icon={<VideoCameraAddOutlined />} style={{color: 'black'}}>
-            <Link to='/signup' style={{color: 'black'}}>New Project</Link>
+            <Link to='/projects' style={{color: 'black'}}>New Project</Link>
             </Menu.Item>
-            <Menu.Item key="5" icon={<UserOutlined />} style={{color: 'black'}} onClick={logoutProcess}>
+              <Menu.Item key="5" icon={<LogoutOutlined />} style={{color: 'black'}} onClick={logoutProcess}>
               Logout
             </Menu.Item>
-            <Menu.Item key="6" icon={<LoginOutlined />} style={{color: 'black'}}>
-            <Link to='/login' style={{color: 'black'}}>Login</Link>
+            <Menu.Item key="6" icon={<StarOutlined />} style={{color: 'black'}}>
+              <Link to='/chats' style={{color: 'black'}}>Chats</Link>
             </Menu.Item>
-            <Menu.Item key="7" icon={<UserAddOutlined />} style={{color: 'black'}}>
-            <Link to='/signup' style={{color: 'black'}}>Signup</Link>
-            </Menu.Item>
+            </>
+            )}
+            {!user && (
+              <>
+              <Menu.Item key="7" icon={<LoginOutlined />} style={{color: 'black'}}>
+              <Link to='/login' style={{color: 'black'}}>Login</Link>
+              </Menu.Item>
+              <Menu.Item key="8" icon={<UserAddOutlined />} style={{color: 'black'}}>
+              <Link to='/signup' style={{color: 'black'}}>Signup</Link>
+              </Menu.Item>
+              </>
+            )}
+            
           </Menu>
         </Sider>
-        <Layout className="site-layout" style={{backgroundColor: '#FFFFF0'}}>
-          <Header className="site-layout-background" style={{ paddingLeft: "10px", backgroundColor: "#FFFFF0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{height: '100vh', borderRight: '2px solid grey', marginTop: '12px', marginLeft: '12px'}}></div>
+        <Layout className="site-layout" style={{backgroundColor: '#F5F5F5'}}>
+          <Header className="site-layout-background" style={{ paddingLeft: "10px", backgroundColor: "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
               className: 'trigger',
               onClick: toggle,

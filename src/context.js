@@ -13,6 +13,9 @@ function Provider({children}) {
             const {
                 data: {user}
             } = await getProfile()
+
+            console.log(user)
+
             setCtxUser(user)
         }
         profile()
