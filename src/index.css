@@ -13,3 +13,7 @@ code {
 a {
     color: inherit !important
 }
+
+* {
+    font-family: 'B612';
+}

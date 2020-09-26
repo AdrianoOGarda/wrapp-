@@ -49,13 +49,13 @@ function EditProfile({ userId }) {
 
     return (
         <Form layout='vertical' form={form} onFinish={sendUpdatedProfile}>
-            <Form.Item name='name' label='Name'>
+            <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Please input your name!' }]}>
                 <Input />
             </Form.Item>
-            <Form.Item name='about' label='About'>
+            <Form.Item name='about' label='About' rules={[{ required: true, message: 'Please tell us about yourself!' }]}>
                 <Input.TextArea />
             </Form.Item>
-            <Form.Item name='crewTitle' label='Crew Title'>
+            <Form.Item name='crewTitle' label='Crew Title' rules={[{ required: true, message: 'Please select your role!' }]}>
             <Select
                 showSearch
                 style={{ width: 200 }}
@@ -80,7 +80,7 @@ function EditProfile({ userId }) {
             <label for='backgroundPic'>Change your background image</label>
             <input type='file' onChange={uploadBackPhoto}/>
             <br />
-            <Button type='primary' htmlType='submit'>
+            <Button type='primary' htmlType='submit' disabled={!photo || !backImage}>
                 Update your profile
             </Button>
         </Form>

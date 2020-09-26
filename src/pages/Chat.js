@@ -1,12 +1,12 @@
 import React, {useState, useEffect, useContext} from 'react'
-import {Input, Button, Typography} from 'antd'
+import {Input, Button, Typography, Avatar} from 'antd'
 import {createMesage, getChat} from "../services/chat"
 import {MyContext} from "../context"
 import openSocket from 'socket.io-client';
 const {Title} = Typography
 
 
-const socket = openSocket('http://192.168.1.5:3000');
+const socket = openSocket('http://localhost:3000'); //192.168.15.26
 
 function Chat({match: {params: {chatId}}}) {
 const [message, setMessage] = useState('')
@@ -59,7 +59,10 @@ useEffect(()=> {
 if (user && chat.person1) {
       return (
         <div>
+        <div>
+        <Avatar size={140} src={[chat?.person1, chat?.person2].filter(u => u._id !== user?._id)[0].image} style={{backgroundColor: '#F5F5F5', paddingBottom: '15px'}}/>
         <Title level={2}>{[chat?.person1, chat?.person2].filter(u => u._id !== user?._id)[0].name}</Title>
+        </div>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'end'}}>
         {chat?.messages?.map((m, i) => 
             m.owner === user?._id ? (

@@ -29,24 +29,26 @@ const Profile = ({
    
     return (
         <div>
-        <div style={{backgroundImage: `url(${oneUser?.backgroundImage})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', width: '50vw', borderRadius: '7px'}}>
+        <div style={{backgroundImage: `url(${oneUser?.backgroundImage})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', width: '70vw', borderRadius: '7px'}}>
             <Row>
-                <Col span={24} style={{display: 'flex', margin: '100px'}}>
+                <Col span={24} style={{display: 'flex', marginTop: '100px', marginBottom: '100px', justifyContent: 'center'}}>
                 <Avatar size={140} src={oneUser?.image} style={{backgroundColor: '#F5F5F5', paddingBottom: '15px'}}/>
                 </Col>
             </Row>
             </div>
-            <Row style={{margin: '0px', paddingBottom: '0px'}}>
-                <Col span={12} style={{display: 'flex', margin: '10px', justifyContent: 'center'}}>
-                <Title level={2} style={{fontFamily: 'Volkorn'}}>{oneUser?.name}</Title> 
+            <Row style={{margin: '0px', paddingBottom: '0px', width: '70vw', display: 'flex', justifyContent: 'center'}}>
+                <Col span={12}>
+                <Title level={2} style={{fontFamily: 'B612'}}>{oneUser?.name}</Title> 
                 </Col>
             </Row>
-            <Row style={{display: 'flex'}}>
-                <Col span={12} style={{margin: '0px', alignSelf: 'center'}}>
-                <Title level={4} style={{fontFamily: 'Volkorn'}}>I work as a/an: {oneUser?.crewTitle}</Title> 
+            <Row style={{display: 'flex', justifyContent: 'center', width: '70vw', paddingBottom: '5px'}}>
+                <Col span={12} style={{margin: '0px'}}>
+                <Title level={5} style={{fontFamily: 'B612'}}>I work as a/an: {oneUser?.crewTitle}</Title> 
                 </Col>
+            </Row>
+            <Row style={{display: 'flex', justifyContent: 'center', width: '70vw'}}>
                 <Col span={12}>
-                    <Button onClick={() => setShowModal(true)} style={{height: '25px', display: 'flex', alignItems: 'center', justifyContent: 'left'}}>Edit your profile</Button>
+                    <Button onClick={() => setShowModal(true)}>Edit your profile</Button>
                 <Modal
                 title='Edit your profile'
                 visible={showModal}
@@ -62,12 +64,16 @@ const Profile = ({
                 </Col>
             </Row>
         
-            <div style={{width: '85vw', borderBottom: '2px solid #A52A2A', paddingTop: '10px'}}></div>
-            <Row style={{paddingTop: '10px'}}>
-                <Col span={12} style={{display: 'flex', justifyContent: 'left', border: '1px solid grey'}}>
-                    {oneUser?.about}
-                </Col>
-            </Row>
+            <div style={{width: '80vw', borderBottom: '2px solid #A52A2A', paddingTop: '10px'}}></div>
+
+            <div style={{display: 'flex', justifyContent: 'space-between', width: 'calc(100% - 15%)', backgroundColor: '#A31E32', color: 'white', marginTop: '15px', borderRadius: '5px'}}>
+                <div style={{padding: '10px'}}>
+                  <Title level={2} style={{color: 'white'}}>ABOUT</Title>
+                </div>
+                <div style={{padding: '10px'}}>
+                {oneUser?.about}
+                </div>
+            </div>
             
             
         </div>

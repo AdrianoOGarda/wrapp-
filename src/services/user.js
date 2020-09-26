@@ -1,5 +1,5 @@
 import axios from 'axios'
-let baseURL = "http://192.168.1.5:3000/users"
+let baseURL = "http://localhost:3000/users"
 
 const service = axios.create({ withCredentials: true, baseURL })
 

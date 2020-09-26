@@ -2,6 +2,8 @@ import React, {useState, useContext} from 'react'
 import {Link} from "react-router-dom"
 import {logOut} from "../services"
 import {MyContext} from "../context"
+import Bergman from "../images/bergman.png"
+
 
 import { Layout, Menu } from 'antd';
 import {
