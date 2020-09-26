@@ -17,7 +17,7 @@ const Chats = ({history}) => {
 
     //const handleGoToChat = id => history.push(`/chats/${id}`)
     const handleGoToChat = async id => {
-        const chat = user.chats.filter(c => returnTheOtherGuy(c.person1, c.person2) === id)[0]
+        const chat = user.chats.filter(c => returnTheOtherGuy(c.person1._id, c.person2._id) === id)[0]
 
         if (chat) {
            return history.push(`chats/${chat._id}`)
@@ -45,6 +45,7 @@ const Chats = ({history}) => {
 
 
     if (user) {
+        console.log(user)
         return (
             <div>
                 Welcome to your chats
@@ -54,11 +55,17 @@ const Chats = ({history}) => {
                 {userList.map((u) => <Button onClick={() => handleGoToChat(u._id)}>{u.name}</Button>)}
                 <br/>
                 <br/>
-                {user?.chats?.map((c) => 
-                <Button onClick={() => handleGoToChat(returnTheOtherGuy(c.person1, c.person2))}>
-                    {returnTheOtherGuy(c.person1, c.person2)}
+                
+
+                <div>
+                    Go to your chat with: 
+                    <br/>
+                    {user?.chats?.map((c) => 
+                <Button type="primary" ghost onClick={() => handleGoToChat(returnTheOtherGuy(c.person1._id, c.person2._id))}>
+                    {[c.person1, c.person2].filter(u => u._id !== user._id)[0].name}
                 </Button>
                 )}
+                </div>
             </div>
         )
     }

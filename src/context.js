@@ -14,6 +14,7 @@ function Provider({children}) {
                 data: {user}
             } = await getProfile()
 
+            console.log('context user')
             console.log(user)
 
             setCtxUser(user)
