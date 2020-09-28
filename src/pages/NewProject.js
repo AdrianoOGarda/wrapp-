@@ -9,9 +9,11 @@ import FormItem from 'antd/lib/form/FormItem'
 function NewProject({ history }) {
     const [form] = Form.useForm()
     const [imageUrl, setImageUrl] = useState(null)
+    const [date, setDate] = useState(null)
 
     async function sendProject(values) {
-        await createProject({...values, image: imageUrl})
+        await createProject({...values, image: imageUrl, date: date})
+        console.log('asshgjsda', date)
         history.push('/')
     }
 
@@ -30,7 +32,8 @@ function NewProject({ history }) {
     }
 
     function onChange(date, dateString) {
-      console.log(date, dateString);
+      console.log('este es el cabron', date)
+      setDate(date)
     }
 
 
@@ -47,7 +50,7 @@ function NewProject({ history }) {
       </Form.Item>
       <FormItem name='date' label='Date'>
       <Space direction="vertical">
-    <DatePicker onChange={onChange} />
+    <DatePicker format={'DD/MM/YYYY'} onChange={onChange} />
   </Space>
       </FormItem>
       <input type='file' onChange={uploadImage}/>

@@ -1,11 +1,12 @@
 import React, {useContext, useEffect} from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import LayoutApp from "./components/LayoutApp"
-import {NotFound, Home, Login, Profile, Signup, NewProject, Chats, Chat} from "./pages"
+import {NotFound, Home, Login, Profile, Signup, NewProject, Chats, Chat, Project} from "./pages"
 import Popular from './pages/Popular';
 
 //const Signup = () => <h1>Signup</h1>
 //const Login = () => <h1>Login</h1>
+//const Detalle = () => <h1>Vista de detalle del proyecto</h1>
 
 const Router = () => {
   return (
@@ -20,6 +21,7 @@ const Router = () => {
       <Route exact path="/popular" component={Popular}/>
       <Route exact path="/chats" component={Chats}/>
       <Route exact path="/chats/:chatId" component={Chat}/>
+      <Route exact path="/projects/:projectId" component={Project}/>
       <Route component={NotFound} />
     </Switch>
   </LayoutApp>
