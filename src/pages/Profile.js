@@ -6,6 +6,7 @@ import { InfoCircleOutlined } from "@ant-design/icons"
 import EditProfile from "../components/EditProfile"
 import {Link} from 'react-router-dom'
 import {followUser} from "../services/follow"
+import {unfollowUser} from "../services/unfollow"
 
 const { Meta } = Card;
 
@@ -18,10 +19,20 @@ const Profile = ({
 }) => {
     const [oneUser, setOneUser] = useState(null)
     const [showModal, setShowModal] = useState(false)
-    const { user } = useContext(MyContext)
+    //const [following, setFollowing] = useState(false)
+    const { user, setCtxUser } = useContext(MyContext)
 
     const follow = async () => {
-        await followUser(userId)
+       const {newUser} = await followUser(userId)
+        console.log(newUser)
+        setCtxUser(newUser)
+
+    }
+
+    const unfollow = async() => {
+        const {newUser} = await unfollowUser(userId)
+        console.log(newUser)
+        setCtxUser(newUser)
     }
 
     useEffect(() => {
@@ -56,7 +67,7 @@ const Profile = ({
                 {user?.following.filter(id => id === oneUser?._id).length === 0 ? (
                     <Button onClick={follow}>Follow</Button>
                 ) : (  
-                    <Button>Unfollow</Button>
+                    <Button onClick={unfollow}>Unfollow</Button>
                 )}
                 </Col>
             </Row>
