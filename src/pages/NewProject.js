@@ -13,7 +13,6 @@ function NewProject({ history }) {
 
     async function sendProject(values) {
         await createProject({...values, image: imageUrl, date: date})
-        console.log('asshgjsda', date)
         history.push('/')
     }
 
@@ -54,7 +53,7 @@ function NewProject({ history }) {
   </Space>
       </FormItem>
       <input type='file' onChange={uploadImage}/>
-      <Button type='primary' htmlType='submit' >
+      <Button type='primary' htmlType='submit' disabled={!imageUrl}>
         Create project
       </Button>
     </Form>

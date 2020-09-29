@@ -3,7 +3,10 @@ import { getAllProjects } from "../services/projects"
 import { getAllUsers } from "../services/user"
 import {Card, Avatar} from 'antd'
 import { Link } from "react-router-dom"
-import { InfoOutlined } from "@ant-design/icons"
+import { InfoCircleOutlined } from "@ant-design/icons"
+import Orson from "../images/orson.png"
+
+
 const { Meta } = Card;
 
 let baseURL = "http://localhost:3001/users"
@@ -23,7 +26,18 @@ useEffect(() => {
     fetchProjects()
 }, [])
 
-console.log('PROYECTO ========>', projects)
+useEffect(() => {
+  async function fetchUsers(){
+      const {
+          data: { users }
+      } = await getAllUsers()
+      setUsers(users)
+  }
+  fetchUsers()
+}, [])
+
+
+
 
     return (
         <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', width: '45vw'}}>
@@ -41,12 +55,12 @@ console.log('PROYECTO ========>', projects)
     }
     actions={[
         <Link to={`/projects/${project._id}`}>
-          <InfoOutlined key='more'/>
+          <InfoCircleOutlined key='more'/>
         </Link>
       ]}
   >
     <Meta
-      avatar={<a href={`${baseURL}/${project.owner._id}`}><Avatar src={project.owner.image}></Avatar></a>}
+      avatar={<a href={`${baseURL}/${project.owner?._id}`}><Avatar src={project.owner?.image}></Avatar></a>}
       title={project.name}
       description={project.premise}
     />
@@ -62,7 +76,16 @@ console.log('PROYECTO ========>', projects)
   <br />
   </div>
             ))}
+            
+            <img src={Orson} style={{width: '600px', position: 'absolute', right: '0', bottom: '0'}}/>
 
+            {users?.map((user, i) => (
+              <div>
+              <p>{user.name}</p>
+              </div>
+            ))}
+            
+            
         </div>
     )
 }

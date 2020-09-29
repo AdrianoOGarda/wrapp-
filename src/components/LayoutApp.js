@@ -2,7 +2,6 @@ import React, {useState, useContext} from 'react'
 import {Link} from "react-router-dom"
 import {logOut} from "../services"
 import {MyContext} from "../context"
-import Bergman from "../images/bergman.png"
 
 
 import { Layout, Menu } from 'antd';
@@ -11,11 +10,12 @@ import {
   MenuFoldOutlined,
   UserOutlined,
   VideoCameraAddOutlined,
-  UploadOutlined,
+  PlusCircleOutlined,
   HomeOutlined,
   LoginOutlined,
   UserAddOutlined,
   StarOutlined,
+  MessageOutlined,
   LogoutOutlined
 } from '@ant-design/icons';
 
@@ -60,20 +60,23 @@ function LayoutApp({children}) {
             <Menu.Item key="4" icon={<VideoCameraAddOutlined />} style={{color: 'black'}}>
             <Link to='/projects' style={{color: 'black'}}>New Project</Link>
             </Menu.Item>
-              <Menu.Item key="5" icon={<LogoutOutlined />} style={{color: 'black'}} onClick={logoutProcess}>
+            <Menu.Item key="5" icon={<PlusCircleOutlined />} style={{color: 'black'}}>
+            <Link to='/jobPosts' style={{color: 'black'}}>New Post</Link>
+            </Menu.Item>
+              <Menu.Item key="6" icon={<LogoutOutlined />} style={{color: 'black'}} onClick={logoutProcess}>
               Logout
             </Menu.Item>
-            <Menu.Item key="6" icon={<StarOutlined />} style={{color: 'black'}}>
+            <Menu.Item key="7" icon={<MessageOutlined />} style={{color: 'black'}}>
               <Link to='/chats' style={{color: 'black'}}>Chats</Link>
             </Menu.Item>
             </>
             )}
             {!user && (
               <>
-              <Menu.Item key="7" icon={<LoginOutlined />} style={{color: 'black'}}>
+              <Menu.Item key="8" icon={<LoginOutlined />} style={{color: 'black'}}>
               <Link to='/login' style={{color: 'black'}}>Login</Link>
               </Menu.Item>
-              <Menu.Item key="8" icon={<UserAddOutlined />} style={{color: 'black'}}>
+              <Menu.Item key="9" icon={<UserAddOutlined />} style={{color: 'black'}}>
               <Link to='/signup' style={{color: 'black'}}>Signup</Link>
               </Menu.Item>
               </>

@@ -17,3 +17,13 @@ a {
 * {
     font-family: 'B612';
 }
+
+.projectMeta .ant-card-meta-title {
+    color: white !important;
+    border-bottom: 3px solid white;
+}
+
+.projectMeta .ant-card-meta-description {
+    color: white !important;
+    padding-top: 10px;
+}
