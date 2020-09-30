@@ -4,6 +4,7 @@ import { getAllUsers } from "../services/user"
 import {Card, Avatar, Typography} from 'antd'
 import { Link } from "react-router-dom"
 import { InfoCircleOutlined } from "@ant-design/icons"
+import Moment from "react-moment"
 import Orson from "../images/orson.png"
 
 const { Title } = Typography;
@@ -44,12 +45,12 @@ useEffect(() => {
           <div>
         <Title level={1} style={{textDecoration: 'underline'}}>New Projects</Title> 
         </div>
-        <div>
+        <div style={{marginRight: '8vw'}}>
         <Title level={1} style={{textDecoration: 'underline'}}>Users</Title>
         </div>
         </div>
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
-        <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', width: '40vw'}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', width: '45vw'}}>
             {projects?.map((project, i) => (
                 <div key={i}> 
                 <Card
@@ -75,8 +76,9 @@ useEffect(() => {
     />
     <br />
     <div>
-        <a href={`users/${project.owner?._id}`}><p style={{textDecoration: 'underline'}}>By: {project.owner.name}</p></a>
+        <a href={`users/${project.owner?._id}`}><p style={{textDecoration: 'underline'}}>By: {project.owner?.name}</p></a>
         <p>{project.location}</p>
+        <p>To be shot: <Moment format="DD/MM/YYYY" date={project.date} /></p>
     
   
         {project.posts?.map((post, i) => (

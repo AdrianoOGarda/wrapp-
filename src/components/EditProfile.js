@@ -57,6 +57,9 @@ function EditProfile({ userId, setShowModal }) {
             <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Please input your name!' }]}>
                 <Input />
             </Form.Item>
+            <Form.Item name='location' label='Location' rules={[{ required: true, message: 'Please input your location!' }]}>
+                <Input />
+            </Form.Item>
             <Form.Item name='about' label='About' rules={[{ required: true, message: 'Please tell us about yourself!' }]}>
                 <Input.TextArea />
             </Form.Item>

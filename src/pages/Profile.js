@@ -81,7 +81,9 @@ const Profile = ({
               )}
                 </Col>
             </Row>
-            <Row style={{display: 'flex', justifyContent: 'center', width: '80vw'}}>
+
+            {user?._id === userId ? (
+              <Row style={{display: 'flex', justifyContent: 'center', width: '80vw'}}>
                 <Col span={12}>
                     <Button onClick={() => setShowModal(true)}>Edit your profile</Button>
                 <Modal
@@ -98,6 +100,9 @@ const Profile = ({
                 </Modal>
                 </Col>
             </Row>
+              ) : (
+                <></>
+              )}
         
             <div style={{width: '80vw', borderBottom: '2px solid #A52A2A', paddingTop: '10px'}}></div>
 

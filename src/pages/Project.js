@@ -4,6 +4,8 @@ import { Row, Col, Button, Modal, Typography, Avatar, Card } from 'antd'
 import { InfoOutlined } from "@ant-design/icons"
 import { Link } from "react-router-dom"
 import { MyContext } from "../context"
+import Moment from "react-moment"
+
 import NewCrewPost from "../components/CrewSearch"
 
 const { Meta } = Card;
@@ -51,7 +53,7 @@ console.log('===========>', project)
     <Title level={4}>To be shot in: {project.location}</Title>
             </Col>
             <Col span={24} style={{display: 'flex'}}>
-    <Title level={4}>Around: {project.date}</Title>
+    <Title level={4}>Around: <Moment format="DD/MM/YYYY" date={project.date}></Moment></Title>
             </Col>
             {user?._id === project?.owner?._id && (
             <Col span={24}>
