@@ -1,5 +1,8 @@
 import axios from 'axios'
-let baseURL = "http://localhost:3000/user"
+let devUrl = process.env.REACT_APP_DEV_URL;
+let prodUrl = process.env.REACT_APP_PROD_URL;
+
+const baseURL = `${process.env.NODE_ENV === 'production' ? prodUrl : devUrl}/user`
 
 const service = axios.create({ withCredentials: true, baseURL })
 

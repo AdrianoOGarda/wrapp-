@@ -5,13 +5,13 @@ import Bergman from "../images/bergman.png"
 import {Link} from "react-router-dom"
 import { Card, Avatar } from "antd"
 import { InfoCircleOutlined } from "@ant-design/icons"
+import  SearchBar  from "../components/SearchBar"
 
 const { Meta } = Card;
-let baseURL = "http://localhost:3001/users"
 
 
 
-function Home() {
+function Home({ history }) {
 const [homeUser, setHomeUser] = useState(null)
 const { user } = useContext(MyContext)
 
@@ -22,19 +22,20 @@ const { user } = useContext(MyContext)
         const {
             data 
         } = await getOneUser(user?._id)
+        console.log('------------------')
+        console.log(data.user.following.map(f => f.projects))
         setHomeUser(data.user)
     }
     
     fetchUser()
   }, [user])
-
-  console.log('sduiuagdiuag',homeUser)
   
   
 
 
   return (
     <div>
+      <SearchBar history={history} />
       <h1>Home</h1>
       {homeUser?.following?.map((user, i) => (
       <div key={i}>
@@ -59,7 +60,7 @@ const { user } = useContext(MyContext)
       ]}
   >
     <Meta
-    avatar={<a href={`${baseURL}/${project.owner._id}`}><Avatar src={project.owner?.image}></Avatar></a>}
+    avatar={<a href={`users/${project.owner._id}`}><Avatar src={project.owner?.image}></Avatar></a>}
       title={project.name}
       description={project.premise}
     />
@@ -79,7 +80,7 @@ const { user } = useContext(MyContext)
       
 
       ))}
-      <img src={Bergman} style={{width: '800px', position: 'absolute', right: '0', bottom: '0'}}/>
+      <img src={Bergman} style={{width: '40vw', position: 'absolute', right: '0', bottom: '0'}}/>
     </div>
   );
 }

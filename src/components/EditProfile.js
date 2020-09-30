@@ -1,12 +1,15 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {updateUser} from "../services/user"
 import {Form, Button, Input, Select} from 'antd'
 import axios from 'axios'
+import { MyContext } from '../context'
 const { Option } = Select
 
 
 
-function EditProfile({ userId }) {
+function EditProfile({ userId, setShowModal }) {
+    const {user} = useContext(MyContext)
+
     const [form] = Form.useForm() 
     const [photo, setPhoto] = useState(null)
     const [backImage, setBackImage] = useState(null)
@@ -44,11 +47,13 @@ function EditProfile({ userId }) {
     
 
         async function sendUpdatedProfile(values) {
+            setShowModal(false)
+
             await updateUser(userId, {...values, image: photo, backgroundImage: backImage})
         }
 
     return (
-        <Form layout='vertical' form={form} onFinish={sendUpdatedProfile}>
+        <Form initialValues={user}layout='vertical' form={form} onFinish={sendUpdatedProfile}>
             <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Please input your name!' }]}>
                 <Input />
             </Form.Item>
@@ -63,24 +68,22 @@ function EditProfile({ userId }) {
                 optionFilterProp="children"
                 name='crewTitle'
                 onSearch={onSearch}
-                filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-        >
-        {crewRoles.map((role, i) => (
-        <Option key={i} value={role}>
-            {role}
-        </Option>
-            ))}
+                filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                {crewRoles.map((role, i) => (
+                    <Option key={i} value={role}>
+                        {role}
+                    </Option>
+                ))}
             </Select>
             </Form.Item>
-            <label for='profilePic'>Change your profile photo</label>
+            <label htmlFor='profilePic'>Change your profile photo</label>
             <input type='file' onChange={uploadPhoto}/>
             <br />
-            <label for='backgroundPic'>Change your background image</label>
+            <label htmlFor='backgroundPic'>Change your background image</label>
             <input type='file' onChange={uploadBackPhoto}/>
             <br />
-            <Button type='primary' htmlType='submit' disabled={!photo || !backImage}>
+            <Button type='primary' htmlType='submit'>
                 Update your profile
             </Button>
         </Form>

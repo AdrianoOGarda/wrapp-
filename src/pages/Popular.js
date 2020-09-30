@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { getAllProjects } from "../services/projects"
 import { getAllUsers } from "../services/user"
-import {Card, Avatar} from 'antd'
+import {Card, Avatar, Typography} from 'antd'
 import { Link } from "react-router-dom"
 import { InfoCircleOutlined } from "@ant-design/icons"
 import Orson from "../images/orson.png"
 
+const { Title } = Typography;
 
 const { Meta } = Card;
-
-let baseURL = "http://localhost:3001/users"
 
 
 function Popular() {
@@ -40,11 +39,21 @@ useEffect(() => {
 
 
     return (
-        <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', width: '45vw'}}>
+      <div>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <div>
+        <Title level={1} style={{textDecoration: 'underline'}}>New Projects</Title> 
+        </div>
+        <div>
+        <Title level={1} style={{textDecoration: 'underline'}}>Users</Title>
+        </div>
+        </div>
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', width: '40vw'}}>
             {projects?.map((project, i) => (
                 <div key={i}> 
                 <Card
-    style={{ width: 300 }}
+    style={{ width: 250 }}
     cover={
         
       <img
@@ -60,13 +69,15 @@ useEffect(() => {
       ]}
   >
     <Meta
-      avatar={<a href={`${baseURL}/${project.owner?._id}`}><Avatar src={project.owner?.image}></Avatar></a>}
+      avatar={<a href={`users/${project.owner?._id}`}><Avatar src={project.owner?.image}></Avatar></a>}
       title={project.name}
       description={project.premise}
     />
     <br />
     <div>
+        <a href={`users/${project.owner?._id}`}><p style={{textDecoration: 'underline'}}>By: {project.owner.name}</p></a>
         <p>{project.location}</p>
+    
   
         {project.posts?.map((post, i) => (
           <p key={i}>Looking for: {post.lookingFor}</p>
@@ -76,17 +87,35 @@ useEffect(() => {
   <br />
   </div>
             ))}
-            
-            <img src={Orson} style={{width: '600px', position: 'absolute', right: '0', bottom: '0'}}/>
+  </div>
+  
+  <img src={Orson} style={{width: '25vw', position: 'absolute', right: '0', bottom: '0'}}/>
+  
 
+            
+            
+            
+          <div style={{width: '35vw', height: '5vh', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
             {users?.map((user, i) => (
               <div>
-              <p>{user.name}</p>
+              <Card
+              style={{width: 150, backgroundColor: '#A31E32', color: 'white'}}
+              >
+                <a href={`users/${user._id}`}><Avatar src={user.image}></Avatar></a>
+            <p>{user.name}</p>
+            <p>{user.crewTitle}</p>
+              </Card>
+              <br/>
               </div>
+          
+              
             ))}
+            </div>
             
             
-        </div>
+        
+            </div>
+            </div>
     )
 }
 

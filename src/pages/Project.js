@@ -9,8 +9,6 @@ import NewCrewPost from "../components/CrewSearch"
 const { Meta } = Card;
 const { Title, Text } = Typography
 
-let baseURL = "http://localhost:3001/users"
-
 const Project = ({
     match: {
         params: { projectId }
@@ -41,7 +39,7 @@ console.log('===========>', project)
             </div>
         <Row gutter={[16, 16]}>
             <Col span={24}>
-            <a href={`${baseURL}/${project?.owner?._id}`}>  <Title level={4}>By: {project?.owner?.name}  <Avatar src={project?.owner?.image}></Avatar></Title></a> 
+            <a href={`users/${project?.owner?._id}`}>  <Title level={4}>By: {project?.owner?.name}  <Avatar src={project?.owner?.image}></Avatar></Title></a> 
             </Col>
             <Col span={24}>
     <Title level={1} style={{ textDecoration: 'underline'}}>{project.name}</Title>
@@ -49,8 +47,11 @@ console.log('===========>', project)
             <Col span={24}>
     <Title level={5}>{project.premise}</Title>
             </Col>
-            <Col>
+            <Col span={24} style={{display: 'flex'}}>
     <Title level={4}>To be shot in: {project.location}</Title>
+            </Col>
+            <Col span={24} style={{display: 'flex'}}>
+    <Title level={4}>Around: {project.date}</Title>
             </Col>
             {user?._id === project?.owner?._id && (
             <Col span={24}>

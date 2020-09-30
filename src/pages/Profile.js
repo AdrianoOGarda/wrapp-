@@ -17,22 +17,22 @@ const Profile = ({
         params: { userId }
     }
 }) => {
+    const { user, setCtxUser } = useContext(MyContext)
     const [oneUser, setOneUser] = useState(null)
+    const [following, setFollowing] = useState(false)
     const [showModal, setShowModal] = useState(false)
     //const [following, setFollowing] = useState(false)
-    const { user, setCtxUser } = useContext(MyContext)
 
     const follow = async () => {
-       const {newUser} = await followUser(userId)
-        console.log(newUser)
-        setCtxUser(newUser)
+       await followUser(userId)
 
+        setFollowing(true)
     }
 
     const unfollow = async() => {
-        const {newUser} = await unfollowUser(userId)
-        console.log(newUser)
-        setCtxUser(newUser)
+        await unfollowUser(userId)
+
+        setFollowing(false)
     }
 
     useEffect(() => {
@@ -40,11 +40,21 @@ const Profile = ({
             const {
                 data: { user }
             } = await getOneUser(userId)
+
             setOneUser(user)
         }
         fetchUser()
         setShowModal(false)
     }, [userId])
+
+    useEffect(() => {
+      if (oneUser) {
+        if (user) {
+
+          setFollowing(user?.following.filter(id => id === oneUser?._id).length !== 0)
+        }
+      }
+    }, [oneUser, user])
 
    
     return (
@@ -64,11 +74,11 @@ const Profile = ({
             <Row style={{display: 'flex', justifyContent: 'center', width: '80vw', paddingBottom: '5px'}}>
                 <Col span={12} style={{margin: '0px'}}>
                 <Title level={5} style={{fontFamily: 'B612'}}>I work as a/an: {oneUser?.crewTitle}</Title> 
-                {user?.following.filter(id => id === oneUser?._id).length === 0 ? (
-                    <Button onClick={follow}>Follow</Button>
-                ) : (  
+                {following ? (  
                     <Button onClick={unfollow}>Unfollow</Button>
-                )}
+                ) : (
+                  <Button onClick={follow}>Follow</Button>
+              )}
                 </Col>
             </Row>
             <Row style={{display: 'flex', justifyContent: 'center', width: '80vw'}}>
@@ -84,7 +94,7 @@ const Profile = ({
                     </Button>
                   ]}
                 >
-                    <EditProfile userId={userId}/>
+                    <EditProfile setShowModal={setShowModal} userId={userId}/>
                 </Modal>
                 </Col>
             </Row>

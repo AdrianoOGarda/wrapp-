@@ -5,8 +5,12 @@ import {MyContext} from "../context"
 import openSocket from 'socket.io-client';
 const {Title} = Typography
 
+let devUrl = process.env.REACT_APP_DEV_URL;
+let prodUrl = process.env.REACT_APP_PROD_URL;
 
-const socket = openSocket('http://localhost:3000'); //192.168.15.26
+const baseURL = `${process.env.NODE_ENV === 'production' ? prodUrl : devUrl}`
+
+const socket = openSocket(baseURL); //192.168.15.26
 
 function Chat({match: {params: {chatId}}}) {
 const [message, setMessage] = useState('')
