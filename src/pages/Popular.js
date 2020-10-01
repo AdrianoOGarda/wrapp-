@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { getAllProjects } from "../services/projects"
 import { getAllUsers } from "../services/user"
+import { getAllPosts } from "../services/post"
 import {Card, Avatar, Typography} from 'antd'
 import { Link } from "react-router-dom"
 import { InfoCircleOutlined } from "@ant-design/icons"
 import Moment from "react-moment"
 import Orson from "../images/orson.png"
+import SearchBar from "../components/SearchBar"
 
 const { Title } = Typography;
 
 const { Meta } = Card;
 
 
-function Popular() {
+function Popular({history}) {
 const [projects, setProjects] = useState(null)
 const [users, setUsers] = useState(null)
+const [posts, setPosts] = useState(null)
 
 useEffect(() => {
     async function fetchProjects(){
@@ -36,17 +39,28 @@ useEffect(() => {
   fetchUsers()
 }, [])
 
+useEffect(() => {
+  async function fetchPosts(){
+      const {
+          data: { jobPosts }
+      } = await getAllPosts()
+      setPosts(jobPosts)
+  }
+  fetchPosts()
+}, [])
 
 
 
     return (
       <div>
+      <SearchBar history={history}></SearchBar>
+      <br/><br/><br/>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <div>
-        <Title level={1} style={{textDecoration: 'underline'}}>New Projects</Title> 
+        <Title level={1} style={{textDecoration: 'underline', display: 'inline'}}>New Projects</Title><Link to='/popUsers'><Title level={4} style={{display: 'inline', paddingLeft: '20px'}}>Check out our popular users</Title></Link>
         </div>
         <div style={{marginRight: '8vw'}}>
-        <Title level={1} style={{textDecoration: 'underline'}}>Users</Title>
+        <Link ><Title level={1} style={{textDecoration: 'underline'}}>New Posts</Title></Link>
         </div>
         </div>
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -93,28 +107,43 @@ useEffect(() => {
   
   <img src={Orson} style={{width: '25vw', position: 'absolute', right: '0', bottom: '0'}}/>
   
-
             
-            
-            
+  
           <div style={{width: '35vw', height: '5vh', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
-            {users?.map((user, i) => (
-              <div>
-              <Card
-              style={{width: 150, backgroundColor: '#A31E32', color: 'white'}}
-              >
-                <a href={`users/${user._id}`}><Avatar src={user.image}></Avatar></a>
-            <p>{user.name}</p>
-            <p>{user.crewTitle}</p>
-              </Card>
-              <br/>
-              </div>
-          
-              
-            ))}
+          {posts?.map((post, i) => (
+                <div key={i}>
+                <Card
+    style={{ width: 350 }}
+    cover={
+        
+      <img
+        alt="postImg"
+        src={post.image}
+        style={{width: '300px', paddingLeft: 100}}
+      />
+    }
+  >
+    <Meta
+    avatar={<a href={`users/${post.owner?._id}`}><Avatar src={post.owner?.image}></Avatar></a>}
+      title={post.name}
+      description={post.description}
+    />
+    <br />
+    <div>
+        <p>{post.location}</p>
+        <a href={`users/${post.owner?._id}`}><p>{post.owner?.name}</p></a>
+    </div>
+    <div>
+        <video controls style={{width:'300px', height: '200px'}}>
+            <source src={post.video} type="video/mp4" />
+            <source src={post.video} type="video/ogg" />
+        </video>
+    </div>
+  </Card>
+  <br />
+                </div>
+              ))}
             </div>
-            
-            
         
             </div>
             </div>

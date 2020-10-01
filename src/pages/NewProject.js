@@ -13,7 +13,7 @@ function NewProject({ history }) {
 
     async function sendProject(values) {
         await createProject({...values, image: imageUrl, date: date})
-        history.push('/')
+        history.push('/home')
     }
 
     async function uploadImage({ target: { files }}) {

@@ -10,6 +10,13 @@ export const createCrewPost = async(projectId, postInfo) => {
     return await service.post(`/${projectId}`, postInfo)
 }
 
+export const deleteCrewPost = async postId => {
+    return await service.delete(`/${postId}`)
+}
+
+export const updateProj = async(projectId, postId) => {
+    return await service.post(`/R${projectId}`, postId)
+}
 
 // export const getAllUsers = async() => {
 //     return await service.get("/")

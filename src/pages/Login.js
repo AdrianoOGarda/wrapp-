@@ -21,7 +21,7 @@ function Login({history}) {
     delete user.salt
     setCtxUser(user)
     console.log(user)
-    history.push("/")
+    history.push("/home")
   }
 
 

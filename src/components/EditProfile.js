@@ -86,7 +86,7 @@ function EditProfile({ userId, setShowModal }) {
             <label htmlFor='backgroundPic'>Change your background image</label>
             <input type='file' onChange={uploadBackPhoto}/>
             <br />
-            <Button type='primary' htmlType='submit'>
+            <Button type='primary' htmlType='submit' disabled={!photo || !backImage}>
                 Update your profile
             </Button>
         </Form>

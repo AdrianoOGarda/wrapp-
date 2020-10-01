@@ -1,8 +1,10 @@
 import React, {useState, useEffect, useContext } from 'react'
 import { MyContext } from "../context"
 import { getOneUser } from "../services/user"
+import { deletePost } from "../services/post"
+import { createChat } from "../services/chat"
 import {Avatar, Row, Col, Modal, Button, Typography, Card} from "antd"
-import { InfoCircleOutlined } from "@ant-design/icons"
+import { InfoCircleOutlined, TeamOutlined } from "@ant-design/icons"
 import EditProfile from "../components/EditProfile"
 import {Link} from 'react-router-dom'
 import {followUser} from "../services/follow"
@@ -13,6 +15,7 @@ const { Meta } = Card;
 const { Title } = Typography;
 
 const Profile = ({
+    history,
     match: {
         params: { userId }
     }
@@ -22,6 +25,25 @@ const Profile = ({
     const [following, setFollowing] = useState(false)
     const [showModal, setShowModal] = useState(false)
     //const [following, setFollowing] = useState(false)
+
+    const handleGoToChat = async id => {
+      const chat = user.chats.filter(c => returnTheOtherGuy(c?.person1._id, c.person2._id) === id)[0]
+
+      if (chat) {
+         return history.push(`/chats/${chat._id}`)
+      }
+
+      const {data} = await createChat(user._id, id)
+
+      return history.push(`/chats/${data.chat._id}`)
+  }
+
+  const returnTheOtherGuy = (id1, id2) => {
+    const idArr = [id1, id2]
+    const filtered = idArr.filter(id => id !== user._id)
+
+    return filtered[0]
+}
 
     const follow = async () => {
        await followUser(userId)
@@ -33,6 +55,11 @@ const Profile = ({
         await unfollowUser(userId)
 
         setFollowing(false)
+    }
+
+    const deleteOnePost = async(postId) => {
+      await deletePost(postId)
+      history.push(`/users/${user?._id}`)
     }
 
     useEffect(() => {
@@ -68,12 +95,17 @@ const Profile = ({
             </div>
             <Row style={{margin: '0px', paddingBottom: '0px', width: '80vw', display: 'flex', justifyContent: 'center'}}>
                 <Col span={12}>
-                <Title level={2} style={{fontFamily: 'B612'}}>{oneUser?.name}</Title> 
+                <Title level={2} style={{fontFamily: 'B612'}}>{oneUser?.name}</Title>
+                </Col>
+            </Row>
+            <Row style={{margin: '0px', paddingBottom: '0px', width: '80vw', display: 'flex', justifyContent: 'center'}}>
+                <Col span={12}>
+                <Avatar size={64} style={{backgroundColor: '#F5F5F5', display: 'inline'}} icon={<TeamOutlined style={{color: 'black'}}/>} /><Title level={5} style={{fontFamily: 'B612', display: 'inline'}}>  {oneUser?.followers?.length} followers</Title>
                 </Col>
             </Row>
             <Row style={{display: 'flex', justifyContent: 'center', width: '80vw', paddingBottom: '5px'}}>
                 <Col span={12} style={{margin: '0px'}}>
-                <Title level={5} style={{fontFamily: 'B612'}}>I work as a/an: {oneUser?.crewTitle}</Title> 
+                <Title level={5} style={{fontFamily: 'B612'}}>Works as a/an: {oneUser?.crewTitle}</Title> 
                 {following ? (  
                     <Button onClick={unfollow}>Unfollow</Button>
                 ) : (
@@ -101,7 +133,11 @@ const Profile = ({
                 </Col>
             </Row>
               ) : (
-                <></>
+                <Row style={{display: 'flex', justifyContent: 'center', width: '80vw'}}>
+                <Col span={12}>
+                <Button onClick={() => handleGoToChat(oneUser?._id)}>Go to chat</Button>
+                </Col>
+            </Row>
               )}
         
             <div style={{width: '80vw', borderBottom: '2px solid #A52A2A', paddingTop: '10px'}}></div>
@@ -149,9 +185,7 @@ const Profile = ({
     <div>
         <p>{project.location}</p>
   
-        {project.posts?.map((post, i) => (
-          <p key={i}>Looking for: {post.lookingFor}</p>
-        ))}
+
     </div>
   </Card>
   <br/>
@@ -199,6 +233,11 @@ const Profile = ({
             <source src={post.video} type="video/mp4" />
             <source src={post.video} type="video/ogg" />
         </video>
+    </div>
+    <div>
+      <Button onClick={() => deleteOnePost(post._id)}>
+        Delete post
+      </Button>
     </div>
   </Card>
   <br/>

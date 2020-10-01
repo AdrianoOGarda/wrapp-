@@ -38,13 +38,14 @@ const handleSelect = name => {
 
     return (
         <>
-        Search by:
+        Search users by:
         <Radio.Group value={type} onChange={({target: {value: btnValue}}) => setType(btnValue)}>
-            <Radio.Button value="name">Name</Radio.Button>
-            <Radio.Button value="crewTitle">Crew Role</Radio.Button>
+            <Radio.Button value="name" style={{marginLeft: '10px', marginBottom: '5px'}}>Name</Radio.Button>
+            <Radio.Button value="crewTitle" style={{marginLeft: '10px', marginRight: '1px', marginBottom: '5px'}}>Crew Role</Radio.Button>
+            <Radio.Button value="location" style={{marginLeft: '10px', marginRight: '10px', marginBottom: '5px'}}>Location</Radio.Button>
         </Radio.Group>
         <AutoComplete 
-        style= {{width: '80vw'}}
+        style= {{width: '75vw'}}
         onChange={setValue}
         options={options}
         onSelect={handleSelect}

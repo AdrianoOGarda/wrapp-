@@ -45,7 +45,7 @@ function LayoutApp({children}) {
           <div className="logo" />
           <Menu theme="dark" mode="inline" style={{backgroundColor: '#F5F5F5'}}>
           <Menu.Item key="1" icon={<HomeOutlined />} style={{color: 'black'}}>
-            <Link to='/' style={{color: 'black'}}>Home</Link>
+            <Link to='/home' style={{color: 'black'}}>Home</Link>
             </Menu.Item>
             {user && (
               <Menu.Item key="2" icon={<UserOutlined />} style={{color: 'black'}}>
@@ -91,7 +91,7 @@ function LayoutApp({children}) {
               className: 'trigger',
               onClick: toggle,
             })}
-            <Title level={1} style={{fontFamily: "Vollkorn", paddingRight: '4rem'}}>wrapp</Title>
+            <Title level={1} style={{fontFamily: "Vollkorn", paddingRight: '4rem'}}><Link to='/' style={{fontFamily: "Vollkorn"}}>wrapp</Link></Title>
           </Header>
           <Content
             className="site-layout-background"

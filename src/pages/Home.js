@@ -44,17 +44,28 @@ const { user } = useContext(MyContext)
           <Title level={1} style={{color: 'white', alignSelf: 'left', marginLeft: '10px'}}>ANNOUNCEMENT</Title>
         </div>
         <div style={{width: '39vw'}}>
-          <p style={{color: 'white', margin: '20px', textAlign: 'justify'}}><p style={{display: 'inline', fontWeight: 'bold', textDecoration: 'underline'}}>wrapp</p> is in solidarity with all those who suffer the devastating consequences of systemic racism and social injustice. We applaud those who demand change. Recent events have yet again made clear a tragic disequilibrium in societies all around the world.</p>
-          <p style={{color: 'white', margin: '20px', textAlign: 'justify'}}>We believe the cinema has the power to reveal, expose, and even to heal. As we mourn the tragic deaths of the women, children, and men who have fallen victims of social injustice, as countless did before them, we encourage independent filmmakers to gather and speak up. Now more than ever does the world need to battle injustice through the power of Art.</p>
+          <p style={{color: 'white', margin: '20px', textAlign: 'justify'}}><p style={{display: 'inline', fontWeight: 'bold', textDecoration: 'underline'}}>wrapp</p> is in solidarity with all those who suffer the consequences of systemic racism and social injustice. Recent events have yet again made clear a disequilibrium in societies all around the world.</p>
+          <p style={{color: 'white', margin: '20px', textAlign: 'justify'}}>We believe cinema has the power to reveal, expose, and heal. As we mourn the deaths of the women, children, and men who have fallen victims of social injustice, we open up a space for filmmakers to communicate and create.  Now more than ever does the world need to battle injustice through Art and creativity.</p>
           <p style={{color: 'white', margin: '20px', textAlign: 'justify'}}>To start using the application, create an account and follow some of our users. Their posts and projects will be displayed on this page.</p>
         </div>
       </div>
     <br/>
     <br />
-    <div style={{display: 'flex', justifyContent: 'left'}}>
-      <Title level={2}>Projects you might like</Title>
+    <div>
+    {user?.following.length > 0 ? (
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+      <Title level={2} style={{display: 'inline', margin: '0'}}>Projects you might like</Title>
+      <Title level={2} style={{margin: '0px 30px 0px 0px', display: 'inline'}}>People looking to work</Title>
+      </div>
+      
+    ) : (
+      <Title level={2}>Start following some <Link to='/popUsers' style={{textDecoration: 'underline'}}>users</Link></Title>
+    )}
+      
     </div>
 
+    
+      <div style={{display: 'flex'}}>
       {homeUser?.following?.map((user, i) => (
       <div key={i} style={{width: '40vw', display: 'flex', marginTop: '10px', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
         {user.projects.map((project, i) => (
@@ -92,10 +103,55 @@ const { user } = useContext(MyContext)
   <br/>
   </div>
         ))}
+        <div style={{marginLeft: '47vw', borderRight:'3px solid #A52A2A', height: '100vh'}}></div>
         </div>
+
+        
+      
+      ))}
       
 
-      ))}
+        {homeUser?.following?.map((user, i) => (
+          <div key={i} style={{width: '40vw', display: 'flex', marginTop: '10px', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
+          {user.jobPosts.map((post, i) => (
+            <div key={i}>
+            <Card
+    style={{ width: 350 }}
+    cover={
+        
+      <img
+        alt="postImg"
+        src={post.image}
+        style={{width: '300px', paddingLeft: 100}}
+      />
+    }
+  >
+    <Meta
+    avatar={<a href={`users/${post.owner?._id}`}><Avatar src={post.owner?.image}></Avatar></a>}
+      title={post.name}
+      description={post.description}
+    />
+    <br />
+    <div>
+        <p>{post.location}</p>
+        <a href={`users/${post.owner?._id}`}><p>{post.owner?.name}</p></a>
+    </div>
+    <div>
+        <video controls style={{width:'300px', height: '200px'}}>
+            <source src={post.video} type="video/mp4" />
+            <source src={post.video} type="video/ogg" />
+        </video>
+    </div>
+  </Card>
+  <br />
+  </div>
+          ))}
+          </div>
+        ))}
+      
+
+      </div>
+
       <img src={Bergman} style={{width: '40vw', position: 'absolute', right: '0', bottom: '0'}}/>
     </div>
   );

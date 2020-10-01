@@ -1,5 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
-import {getOneProject} from "../services/projects"
+import {getOneProject } from "../services/projects"
+import { deleteProject } from "../services/projects"
+import {deleteCrewPost, updateProj } from "../services/crewSearch"
 import { Row, Col, Button, Modal, Typography, Avatar, Card } from 'antd'
 import { InfoOutlined } from "@ant-design/icons"
 import { Link } from "react-router-dom"
@@ -11,7 +13,7 @@ import NewCrewPost from "../components/CrewSearch"
 const { Meta } = Card;
 const { Title, Text } = Typography
 
-const Project = ({
+const Project = ({history,
     match: {
         params: { projectId }
     }
@@ -20,6 +22,16 @@ const [project, setProject] = useState(null)
 const [showModal, setShowModal] = useState(false)
 const [newPost, setnewPost] = useState(false)
 const { user } = useContext(MyContext)
+
+const deleteP = async() => {
+      await deleteProject(projectId)
+      history.push(`/users/${user._id}`)
+    }
+
+const deleteC = async(postId) => {
+  await deleteCrewPost(postId)
+  history.push(`/users/${user._id}`)
+}
 
 
 
@@ -56,11 +68,18 @@ console.log('===========>', project)
     <Title level={4}>Around: <Moment format="DD/MM/YYYY" date={project.date}></Moment></Title>
             </Col>
             {user?._id === project?.owner?._id && (
+              <>
             <Col span={24}>
               <Button block onClick={() => setShowModal(true)}>
                 Searching for a crew? 
               </Button>
             </Col>
+            <Col span={24}>
+              <Button onClick={deleteP}>
+                Delete Project
+              </Button>
+            </Col>
+            </>
           )}
           <Modal
         title='Look for some talent'
@@ -104,9 +123,19 @@ console.log('===========>', project)
     <div>
         <p>{post.location}</p>
         <p>Wtite to: {post.contactInfo}</p>
-        <p>(or start a chat by clicking on the icon below!)</p>
+        <p>(or start a chat with the user!)</p>
         <p>To be shot: {post.project.date}</p>
     </div>
+    {user?._id === post.owner._id ? (
+      <div>
+      <Button onClick={() => deleteC(post._id)}>
+        Delete post
+      </Button>
+    </div>
+    ) : (
+      <></>
+    )}
+    
   </Card>
           ))}
         </div>

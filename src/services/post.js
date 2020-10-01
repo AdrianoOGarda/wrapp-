@@ -10,6 +10,14 @@ export const createPost = async postInfo => {
     return await service.post("/", postInfo)
 }
 
+export const deletePost = async postId => {
+    return await service.delete(`/${postId}`)
+}
+
+export const getAllPosts = async postInfo => {
+    return await service.get('/')
+}
+
 // export const getOneProject = async projectId => {
 //     return await service.get(`/${projectId}`)
 // }
