@@ -44,9 +44,11 @@ function LayoutApp({children}) {
         <Sider trigger={null} collapsible collapsed={collapsed} style={{backgroundColor: '#F5F5F5'}}>
           <div className="logo" />
           <Menu theme="dark" mode="inline" style={{backgroundColor: '#F5F5F5'}}>
+            {user && (
           <Menu.Item key="1" icon={<HomeOutlined />} style={{color: 'black'}}>
             <Link to='/home' style={{color: 'black'}}>Home</Link>
             </Menu.Item>
+            )}
             {user && (
               <Menu.Item key="2" icon={<UserOutlined />} style={{color: 'black'}}>
               <Link to={`/users/${user?._id}`} style={{color: 'black'}}>Profile</Link>
