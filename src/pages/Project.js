@@ -45,7 +45,6 @@ useEffect(() => {
     fetchProject()
 }, [newPost, projectId])
 
-console.log('===========>', project)
 
     return project ? (
       <div>
@@ -53,7 +52,7 @@ console.log('===========>', project)
             </div>
         <Row gutter={[16, 16]}>
             <Col span={24}>
-            <a href={`users/${project?.owner?._id}`}>  <Title level={4}>By: {project?.owner?.name}  <Avatar src={project?.owner?.image}></Avatar></Title></a> 
+            <a href={`/users/${project?.owner?._id}`}>  <Title level={4}>By: {project?.owner?.name}  <Avatar src={project?.owner?.image}></Avatar></Title></a> 
             </Col>
             <Col span={24}>
     <Title level={1} style={{ textDecoration: 'underline'}}>{project.name}</Title>
@@ -92,16 +91,16 @@ console.log('===========>', project)
           </Button>
         ]}
       >
-        <NewCrewPost projectId={projectId} setnewPost={setnewPost}/>
+        <NewCrewPost projectId={projectId} setShowModal={setShowModal} setnewPost={setnewPost}/>
       </Modal>
         </Row>
         
 
-
-<div style={{width: '40vw', backgroundColor: '#A31E32', borderRadius: '7px'}}>
+{project?.posts.length !== 0 && 
+  <div style={{width: '70vw', backgroundColor: '#A31E32', borderRadius: '7px'}}>
 <div style={{alignSelf: 'center'}}><Title level={4} style={{color: 'white', alignSelf: 'center'}}>{project?.owner?.name} is looking for:</Title></div>
 
-        <div style={{display: 'flex', width: '40vw', justifyContent: 'space-evenly', flexWrap: 'wrap', backgroundColor: '#A31E32' }}>
+        <div style={{display: 'flex', width: '70vw', justifyContent: 'space-evenly', flexWrap: 'wrap', backgroundColor: '#A31E32' }}>
           {project?.posts.map((post, i) => (
             <Card
     style={{ width: 300, backgroundColor: 'black', color: 'white', margin: '15px', border: 'none', borderRadius: '7px'}}
@@ -140,6 +139,13 @@ console.log('===========>', project)
           ))}
         </div>
         </div>
+}
+
+
+
+
+
+
         </div>
         
         

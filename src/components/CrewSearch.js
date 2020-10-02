@@ -7,7 +7,7 @@ const { Option } = Select
 
 
 
-function CrewSearch({ projectId, setnewPost }) {
+function CrewSearch({ projectId, setShowModal, setnewPost }) {
     const [form] = Form.useForm() 
     const [photo, setPhoto] = useState(null)
     const [budget, setBudget] = useState(0)
@@ -20,7 +20,7 @@ function CrewSearch({ projectId, setnewPost }) {
         }
 
         async function sendPost(values) {
-            console.log(values)
+            setShowModal(false)
             await createCrewPost(projectId, { ...values, image: photo, budget: budget })
             setnewPost(true)
           }
@@ -61,14 +61,6 @@ function CrewSearch({ projectId, setnewPost }) {
             <Form.Item name='contactInfo' label='Contact information' rules={[{ required: true, message: "Let our users know what you're looking for" }]}>
                 <Input />
             </Form.Item>
-            <Form.Item name='budget' label='Budget' rules={[{ required: true, message: "Let our users know what you're looking for" }]}>
-            <InputNumber
-      defaultValue={1000}
-      formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-      parser={value => value.replace(/\$\s?|(,*)/g, '')}
-      onChange={addNumber}
-    />
-            </Form.Item>
             <Form.Item name='lookingFor' label='Looking for a/an:' rules={[{ required: true, message: 'Please select your role!' }]}>
             <Select
                 showSearch
@@ -88,10 +80,13 @@ function CrewSearch({ projectId, setnewPost }) {
             ))}
             </Select>
             </Form.Item>
+            <div style={{display:'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
             <label for='profilePic'>Add a photo to your search</label>
-            <input type='file' onChange={uploadPhoto}/>
             <br />
-            <Button type='primary' htmlType='submit' disabled={!photo}>
+            <input type='file' onChange={uploadPhoto}/>
+            </div>
+            <br />
+            <Button onClick={(e) => console.log(e)} type='primary' htmlType='submit' disabled={!photo}>
                 Submit your search
             </Button>
         </Form>

@@ -14,7 +14,7 @@ useEffect(() => {
         setOptions(
             users
             .filter(u => u[type] && u[type].toLowerCase().includes(value.toLowerCase()))
-            .map(v => ({value: `${v.crewTitle}: ${v.name}`, link: `/users/${v._id}`}))
+            .map(v => ({value: `${v.crewTitle}/ ${v.name}/ ${v.location}`, link: `/users/${v._id}`}))
             )
     }
 }, [value])
@@ -29,7 +29,7 @@ useEffect(() => {
 }, [])
 
 const handleSelect = name => {
-    const nameWithoutCrewTitle = name.split(': ')[1]
+    const nameWithoutCrewTitle = name.split('/ ')[1]
 
     history.push('/users/' + users.filter(u => u.name === nameWithoutCrewTitle)[0]._id)
 }

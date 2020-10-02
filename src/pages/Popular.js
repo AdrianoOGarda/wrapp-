@@ -113,13 +113,13 @@ useEffect(() => {
           {posts?.map((post, i) => (
                 <div key={i}>
                 <Card
-    style={{ width: 350 }}
+    style={{ width: 300 }}
     cover={
         
       <img
         alt="postImg"
         src={post.image}
-        style={{width: '300px', paddingLeft: 100}}
+       
       />
     }
   >
@@ -131,10 +131,10 @@ useEffect(() => {
     <br />
     <div>
         <p>{post.location}</p>
-        <a href={`users/${post.owner?._id}`}><p>{post.owner?.name}</p></a>
+        <a href={`users/${post.owner?._id}`}><p style={{textDecoration: 'underline'}}>{post.owner?.name}</p></a>
     </div>
     <div>
-        <video controls style={{width:'300px', height: '200px'}}>
+        <video controls style={{width:'250px', height: '200px'}}>
             <source src={post.video} type="video/mp4" />
             <source src={post.video} type="video/ogg" />
         </video>

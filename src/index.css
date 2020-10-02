@@ -27,3 +27,7 @@ a {
     color: white !important;
     padding-top: 10px;
 }
+
+.ant-avatar>img {
+    height: 115% !important
+}

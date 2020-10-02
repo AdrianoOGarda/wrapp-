@@ -5,6 +5,7 @@ import {createPost} from "../services/post"
 import { useForm } from 'antd/lib/form/Form'
 import FormItem from 'antd/lib/form/FormItem'
 import { MyContext } from '../context'
+import { localeData } from 'moment'
 
 const { Option } = Select
 
@@ -13,6 +14,7 @@ function NewPost({ history }) {
     const [form] = Form.useForm()
     const [imageUrl, setImageUrl] = useState(null)
     const [videoUrl, setVideoUrl] = useState(null)
+    const [loading, setLoading] = useState(false)
     const {user} = useContext(MyContext)
     
     const crewRoles = ["Art Director", "Assistant Food Stylist", "Assistant Director / 1st AD", "Assistant Director / 2nd AD", "Best Boy", "Boom Operator", "Camera Assistant (1st AC)", "Camera Assistant (2nd AC)", "Camera Operator", "Camera Operator (Aerial)", "Camera Operator (Jib Arm / Crane)", "Craft Service", "Costume Designer", "Captains / Gang Boss", "Composer (film score)", "Data Wrangling", "Digital Imaging Technician", "Director of Photography", "Director", "Editor", "Electrician", "Food Stylist", "Foley Artist", "Gaffer", "Grip", "Hair Stylist", "Key Grip", "Location Manager", "Location Scout", "Line Producer", "Makeup Artist", "Other (specified in the description)", "Prop Maker", "Prop Master", "Photographer / Production Stills", "Producer", "Production Assistant", "Production Coordinator", "Production Designer", "Production Manager", "Production Secretary",   "Pyro Technician / Explosives", "Scenic Artist / Painter", "Screenwriter", "Set Construction Coordinator / Builder", "Set Decorator / Dresser", "Storyboard Artist", "Steadicam Owner / Operator", "Script Supervisor / Continuity", "Sound Mixer", "Special Effects Coordinator", "Special Effects Technician", "Stunt Coordinator", "Teleprompter Operator", "Transportation Driver", "Videographer", "Video Assist Operator", "Wardrobe Stylist"]
@@ -45,6 +47,7 @@ function NewPost({ history }) {
         data.append("file", files[0])
         data.append("upload_preset", "wrappApplication")
 
+        setLoading(true)
         const {
             data: { secure_url }
         } = await axios.post(
@@ -52,6 +55,7 @@ function NewPost({ history }) {
             data
         )
         setVideoUrl(secure_url)
+        setLoading(false)
         console.log('============>', secure_url)
     }
 
@@ -90,12 +94,17 @@ function NewPost({ history }) {
             ))}
             </Select>
         </Form.Item>
+        <div style={{display: 'flex', alignItems: 'flex-start', flexDirection: 'column'}}>
       <label>Upload an image</label>
+      <br />
       <input type='file' onChange={uploadImage}/>
+      <br />
       <label>Upload a video</label>
+      <br />
       <input type='file' encType="multipart/form-data" onChange={uploadVideo}/>
-      <Button type='primary' htmlType='submit' disabled={!imageUrl}>
-        Create project
+      </div>
+      <Button type='primary' htmlType='submit' disabled={!imageUrl || loading}>
+        Create post
       </Button>
     </Form>
     )

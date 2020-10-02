@@ -64,7 +64,7 @@ function LayoutApp({children}) {
             <Link to='/jobPosts' style={{color: 'black'}}>New Post</Link>
             </Menu.Item>
               <Menu.Item key="6" icon={<LogoutOutlined />} style={{color: 'black'}} onClick={logoutProcess}>
-              Logout
+              <Link to='/'>Logout</Link>
             </Menu.Item>
             <Menu.Item key="7" icon={<MessageOutlined />} style={{color: 'black'}}>
               <Link to='/chats' style={{color: 'black'}}>Chats</Link>

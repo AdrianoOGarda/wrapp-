@@ -1,19 +1,21 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import { Button, Form, Input, DatePicker, Space  } from "antd"
 import axios from 'axios'
 import {createProject} from "../services/projects"
 import { useForm } from 'antd/lib/form/Form'
 import FormItem from 'antd/lib/form/FormItem'
+import { MyContext } from '../context'
 
 
 function NewProject({ history }) {
     const [form] = Form.useForm()
     const [imageUrl, setImageUrl] = useState(null)
     const [date, setDate] = useState(null)
+    const {user} = useContext(MyContext)
 
     async function sendProject(values) {
         await createProject({...values, image: imageUrl, date: date})
-        history.push('/home')
+        history.push(`/users/${user._id}`)
     }
 
     async function uploadImage({ target: { files }}) {

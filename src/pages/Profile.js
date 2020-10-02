@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext } from 'react'
 import { MyContext } from "../context"
-import { getOneUser } from "../services/user"
+import { getOneUser, updateUser } from "../services/user"
 import { deletePost } from "../services/post"
 import { createChat } from "../services/chat"
 import {Avatar, Row, Col, Modal, Button, Typography, Card} from "antd"
@@ -9,6 +9,7 @@ import EditProfile from "../components/EditProfile"
 import {Link} from 'react-router-dom'
 import {followUser} from "../services/follow"
 import {unfollowUser} from "../services/unfollow"
+import axios from 'axios'
 
 const { Meta } = Card;
 
@@ -22,8 +23,12 @@ const Profile = ({
 }) => {
     const { user, setCtxUser } = useContext(MyContext)
     const [oneUser, setOneUser] = useState(null)
-    const [following, setFollowing] = useState(false)
+    const [following, setFollowing] = useState(user?.following.filter(r => r._id === oneUser?._id).length)
     const [showModal, setShowModal] = useState(false)
+    const [followers, setFollowers] = useState(oneUser?.followers?.length)
+
+    const [hoverBack, setHoverBack] = useState(false)
+    const [hoverImage, setHoverImage] = useState(false)
     //const [following, setFollowing] = useState(false)
 
     const handleGoToChat = async id => {
@@ -47,19 +52,22 @@ const Profile = ({
 
     const follow = async () => {
        await followUser(userId)
+       setFollowers(followers + 1)
 
         setFollowing(true)
     }
 
     const unfollow = async() => {
         await unfollowUser(userId)
+        setFollowers(followers - 1)
 
         setFollowing(false)
     }
 
     const deleteOnePost = async(postId) => {
       await deletePost(postId)
-      history.push(`/users/${user?._id}`)
+
+      setOneUser({...oneUser, jobPosts: oneUser.jobPosts.filter(r => r._id !== postId)})
     }
 
     useEffect(() => {
@@ -76,23 +84,63 @@ const Profile = ({
 
     useEffect(() => {
       if (oneUser) {
-        if (user) {
 
+        setFollowers(oneUser.followers.length)
+
+        if (user) {
+          
           setFollowing(user?.following.filter(id => id === oneUser?._id).length !== 0)
         }
       }
     }, [oneUser, user])
 
-   
+    const updateProfile = (user) => {
+      console.log(user)
+      setOneUser({...oneUser, ...user})
+    }
+
+    async function uploadBackPhoto({ target: { files } }) {
+      const data = new FormData()
+      data.append("file", files[0])
+      data.append("upload_preset", "wrappApplication")
+
+      const {
+      data: { secure_url }
+      } = await axios.post("https://api.cloudinary.com/v1_1/djkvj5wq9/image/upload", data)
+
+  await updateUser(userId, {...oneUser, backgroundImage: secure_url})
+  setOneUser({...oneUser, backgroundImage: secure_url})
+  }
+    async function uploadPhoto({ target: { files } }) {
+      const data = new FormData()
+      data.append("file", files[0])
+      data.append("upload_preset", "wrappApplication")
+
+      const {
+      data: { secure_url }
+      } = await axios.post("https://api.cloudinary.com/v1_1/djkvj5wq9/image/upload", data)
+
+  await updateUser(userId, {...oneUser, image: secure_url})
+  setOneUser({...oneUser, image: secure_url})
+  }
+
     return (
         <div>
-        <div style={{backgroundImage: `url(${oneUser?.backgroundImage})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', width: '80vw', borderRadius: '7px'}}>
+        <label htmlFor='backgroundPic'>
+        <div onMouseEnter={() => user?._id === userId && setHoverBack(true)} onMouseLeave={() => user?._id === userId && setHoverBack(false)} style={{border: hoverBack ? '1px solid #A31E32' : null,backgroundImage: `url(${oneUser?.backgroundImage})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', width: '80vw', borderRadius: '7px'}}>
+        {user?._id === userId &&
+        <input id='backgroundPic' onChange={uploadBackPhoto} name='backgroundPic' type='file' style={{display: 'none'}} />}
             <Row>
                 <Col span={24} style={{display: 'flex', marginTop: '100px', marginBottom: '100px', justifyContent: 'center'}}>
-                <Avatar size={140} src={oneUser?.image} style={{backgroundColor: '#F5F5F5', paddingBottom: '15px'}}/>
+                <label htmlFor='profilePic'>
+                {user?._id === userId &&
+                <input id='profilePic' onChange={uploadPhoto} name='profilePic' type='file' style={{display: 'none'}} /> }
+                <Avatar onMouseEnter={() => user?._id === userId && setHoverImage(true)} onMouseLeave={() => user?._id === userId && setHoverImage(false)} size={140} src={oneUser?.image} style={{border: hoverImage ? '1px solid #A31E32' : null, backgroundColor: '#F5F5F5', paddingBottom: '15px'}}/>
+                </label>
                 </Col>
             </Row>
             </div>
+        </label>
             <Row style={{margin: '0px', paddingBottom: '0px', width: '80vw', display: 'flex', justifyContent: 'center'}}>
                 <Col span={12}>
                 <Title level={2} style={{fontFamily: 'B612'}}>{oneUser?.name}</Title>
@@ -100,17 +148,19 @@ const Profile = ({
             </Row>
             <Row style={{margin: '0px', paddingBottom: '0px', width: '80vw', display: 'flex', justifyContent: 'center'}}>
                 <Col span={12}>
-                <Avatar size={64} style={{backgroundColor: '#F5F5F5', display: 'inline'}} icon={<TeamOutlined style={{color: 'black'}}/>} /><Title level={5} style={{fontFamily: 'B612', display: 'inline'}}>  {oneUser?.followers?.length} followers</Title>
+                <Avatar size={64} style={{backgroundColor: '#F5F5F5', display: 'inline'}} icon={<TeamOutlined style={{color: 'black'}}/>} /><Title level={5} style={{fontFamily: 'B612', display: 'inline'}}>  {followers} followers</Title>
                 </Col>
             </Row>
             <Row style={{display: 'flex', justifyContent: 'center', width: '80vw', paddingBottom: '5px'}}>
                 <Col span={12} style={{margin: '0px'}}>
                 <Title level={5} style={{fontFamily: 'B612'}}>Works as a/an: {oneUser?.crewTitle}</Title> 
-                {following ? (  
+                {user?._id !== userId &&
+                (following ? (  
                     <Button onClick={unfollow}>Unfollow</Button>
                 ) : (
                   <Button onClick={follow}>Follow</Button>
-              )}
+              ))
+                }
                 </Col>
             </Row>
 
@@ -128,7 +178,7 @@ const Profile = ({
                     </Button>
                   ]}
                 >
-                    <EditProfile setShowModal={setShowModal} userId={userId}/>
+                    <EditProfile updateProfile={updateProfile} setShowModal={setShowModal} userId={userId}/>
                 </Modal>
                 </Col>
             </Row>
@@ -229,13 +279,21 @@ const Profile = ({
         <p>{post.location}</p>
     </div>
     <div>
-        <video controls style={{width:'350px', height: '200px'}}>
-            <source src={post.video} type="video/mp4" />
-            <source src={post.video} type="video/ogg" />
-        </video>
+      {oneUser?.jobPosts.video ? (
+    <video controls style={{width:'350px', height: '200px'}}>
+        <source src={post.video} type="video/mp4" />
+        <source src={post.video} type="video/ogg" />
+    </video>
+      ) : (
+<></>
+      )}
+        
     </div>
     <div>
-      <Button onClick={() => deleteOnePost(post._id)}>
+      <Button onClick={(e) => {
+        e.preventDefault()
+        deleteOnePost(post._id)
+      }}>
         Delete post
       </Button>
     </div>

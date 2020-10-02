@@ -80,6 +80,8 @@ if (user && chat.person1) {
 
 <form onSubmit={e => e.preventDefault()}>
         <Input value={message} onChange={handleChange}/>
+        <br />
+        <br />
         <Button type='primary' htmlType='submit' onClick={handleSubmit}>Send Message</Button>
         </form>
 

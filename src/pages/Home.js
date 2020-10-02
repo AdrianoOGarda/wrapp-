@@ -15,25 +15,22 @@ const { Meta } = Card;
 
 function Home({ history }) {
 const [homeUser, setHomeUser] = useState(null)
+
 const { user } = useContext(MyContext)
 
+async function fetchUser(){
+  const {
+      data 
+  } = await getOneUser(user?._id)
 
+  setHomeUser(data.user)
+}
 
   useEffect(() => {
-    async function fetchUser(){
-        const {
-            data 
-        } = await getOneUser(user?._id)
-        console.log('------------------')
-        console.log(data.user.following.map(f => f.projects))
-        setHomeUser(data.user)
+    if (user) {
+      fetchUser()
     }
-    
-    fetchUser()
   }, [user])
-  
-  
-
 
   return (
     <div>
@@ -52,7 +49,7 @@ const { user } = useContext(MyContext)
     <br/>
     <br />
     <div>
-    {user?.following.length > 0 ? (
+    {homeUser?.following.length !== 0 ? (
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
       <Title level={2} style={{display: 'inline', margin: '0'}}>Projects you might like</Title>
       <Title level={2} style={{margin: '0px 30px 0px 0px', display: 'inline'}}>People looking to work</Title>
@@ -68,7 +65,7 @@ const { user } = useContext(MyContext)
       <div style={{display: 'flex'}}>
       {homeUser?.following?.map((user, i) => (
       <div key={i} style={{width: '40vw', display: 'flex', marginTop: '10px', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
-        {user.projects.map((project, i) => (
+        {user?.projects.map((project, i) => (
           <div key={i}>
                     <Card
     style={{ width: 300 }}
@@ -103,7 +100,7 @@ const { user } = useContext(MyContext)
   <br/>
   </div>
         ))}
-        <div style={{marginLeft: '47vw', borderRight:'3px solid #A52A2A', height: '100vh'}}></div>
+        
         </div>
 
         
@@ -116,13 +113,12 @@ const { user } = useContext(MyContext)
           {user.jobPosts.map((post, i) => (
             <div key={i}>
             <Card
-    style={{ width: 350 }}
+    style={{ width: 300 }}
     cover={
         
       <img
         alt="postImg"
         src={post.image}
-        style={{width: '300px', paddingLeft: 100}}
       />
     }
   >
@@ -134,10 +130,10 @@ const { user } = useContext(MyContext)
     <br />
     <div>
         <p>{post.location}</p>
-        <a href={`users/${post.owner?._id}`}><p>{post.owner?.name}</p></a>
+        <a href={`users/${post.owner?._id}`}><p style={{textDecoration: 'underline'}}>{post.owner?.name}</p></a>
     </div>
     <div>
-        <video controls style={{width:'300px', height: '200px'}}>
+        <video controls style={{width:'250px', height: '200px'}}>
             <source src={post.video} type="video/mp4" />
             <source src={post.video} type="video/ogg" />
         </video>
@@ -152,7 +148,7 @@ const { user } = useContext(MyContext)
 
       </div>
 
-      <img src={Bergman} style={{width: '40vw', position: 'absolute', right: '0', bottom: '0'}}/>
+      <img src={Bergman} style={{width: '40vw', position: 'absolute', right: '0', bottom: '0', zIndex: 0, pointerEvents: 'none'}}/>
     </div>
   );
 }
