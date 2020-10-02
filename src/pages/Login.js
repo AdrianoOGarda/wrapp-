@@ -3,10 +3,10 @@ import {Row, Col, Form, Input, Button} from "antd"
 import { login } from "../services"
 import { MyContext } from '../context'
 
-let devUrl = process.env.DEV_URL;
-let prodUrl = process.env.PROD_URL;
+let devUrl = process.env.REACT_APP_DEV_URL;
+let prodUrl = process.env.REACT_APP_PROD_URL;
 
-const baseURL = `${process.env.NODE_ENV === 'production' ? prodUrl : devUrl}`
+const baseURL = process.env.NODE_ENV === 'production' ? prodUrl : devUrl
 
 function Login({history}) {
   const [form] = Form.useForm()
@@ -23,10 +23,6 @@ function Login({history}) {
     console.log(user)
     history.push(`/users/${user._id}`)
   }
-
-
-
-
 
     return (
         <div>
