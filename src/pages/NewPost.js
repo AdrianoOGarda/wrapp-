@@ -56,7 +56,6 @@ function NewPost({ history }) {
         )
         setVideoUrl(secure_url)
         setLoading(false)
-        console.log('============>', secure_url)
     }
 
 

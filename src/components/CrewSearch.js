@@ -39,7 +39,6 @@ function CrewSearch({ projectId, setShowModal, setnewPost }) {
         }
 
         function addNumber(date, inputNumber) {
-            console.log('este es el cabron', inputNumber)
             setBudget(inputNumber)
           }
 

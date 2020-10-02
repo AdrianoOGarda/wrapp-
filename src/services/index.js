@@ -4,7 +4,6 @@ let prodUrl = process.env.REACT_APP_PROD_URL;
 
 const baseURL = process.env.NODE_ENV === 'production' ? prodUrl : devUrl
 
-console.log(devUrl)
 
 const service = axios.create({ withCredentials: true, baseURL });
 

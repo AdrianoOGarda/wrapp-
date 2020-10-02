@@ -20,7 +20,6 @@ function Login({history}) {
     delete user.hash
     delete user.salt
     setCtxUser(user)
-    console.log(user)
     history.push(`/users/${user._id}`)
   }
 

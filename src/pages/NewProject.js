@@ -33,7 +33,6 @@ function NewProject({ history }) {
     }
 
     function onChange(date, dateString) {
-      console.log('este es el cabron', date)
       setDate(date)
     }
 
