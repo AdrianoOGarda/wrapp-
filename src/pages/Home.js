@@ -133,10 +133,15 @@ async function fetchUser(){
         <a href={`users/${post.owner?._id}`}><p style={{textDecoration: 'underline'}}>{post.owner?.name}</p></a>
     </div>
     <div>
-        <video controls style={{width:'250px', height: '200px'}}>
+    {post.video ? (
+      <video controls style={{width:'250px', height: '200px'}}>
             <source src={post.video} type="video/mp4" />
             <source src={post.video} type="video/ogg" />
         </video>
+    ) : (
+<></>
+    ) }
+        
     </div>
   </Card>
   <br />
